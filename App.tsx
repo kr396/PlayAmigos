@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import './src/config';
 import Route from './src/navigation';
 
 function App(): React.JSX.Element {
