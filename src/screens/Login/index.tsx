@@ -1,5 +1,5 @@
-import {View, Text} from 'react-native';
-import React, {FC, useState} from 'react';
+import {View, Text, TextInput} from 'react-native';
+import React, {FC, useRef, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -12,6 +12,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   navigation,
 }) => {
   const {styles} = useStyles(stylesheet);
+  const passwordRef = useRef<TextInput>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -35,8 +36,10 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
             onChangeText={setEmail}
             returnKeyType="next"
             containerStyles={styles.input}
+            onSubmitEditing={() => passwordRef.current?.focus()}
           />
           <InputText
+            ref={passwordRef}
             label="Password"
             value={password}
             onChangeText={setPassword}

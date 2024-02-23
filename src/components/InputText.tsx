@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, {FC} from 'react';
+import React, {FC, forwardRef} from 'react';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 type Props = {
@@ -17,25 +17,22 @@ type Props = {
   inputStyle?: StyleProp<TextStyle>;
 } & Omit<TextInputProps, 'style'>;
 
-export const InputText: FC<Props> = ({
-  label,
-  containerStyles,
-  labelStyle,
-  inputStyle,
-  ...props
-}) => {
-  const {styles, theme} = useStyles(stylesheet);
-  return (
-    <View style={[styles.container, containerStyles]}>
-      <Text style={[styles.label, labelStyle]}>{label}</Text>
-      <TextInput
-        selectionColor={theme.colors.primary}
-        {...props}
-        style={[styles.inputStyle, inputStyle]}
-      />
-    </View>
-  );
-};
+export const InputText = forwardRef<TextInput, Props>(
+  ({label, containerStyles, labelStyle, inputStyle, ...props}, ref) => {
+    const {styles, theme} = useStyles(stylesheet);
+    return (
+      <View style={[styles.container, containerStyles]}>
+        <Text style={[styles.label, labelStyle]}>{label}</Text>
+        <TextInput
+          selectionColor={theme.colors.primary}
+          {...props}
+          style={[styles.inputStyle, inputStyle]}
+          ref={ref}
+        />
+      </View>
+    );
+  },
+);
 
 const stylesheet = createStyleSheet(theme => ({
   container: {
