@@ -18,9 +18,6 @@ const stylesheet = createStyleSheet(theme => ({
     backgroundColor: theme.colors.background,
     top: -16,
   },
-  scrollView: {
-    flex: 1,
-  },
   title: {
     fontSize: 18,
     fontFamily: theme.fonts.semiBold,
@@ -29,18 +26,9 @@ const stylesheet = createStyleSheet(theme => ({
   input: {
     marginTop: theme.margins.lg * 2,
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    marginTop: theme.margins.xl,
-  },
-  forgotPass: {
-    color: theme.colors.primary,
-    fontSize: 13,
-    fontFamily: theme.fonts.regular,
-  },
-  loginBtn: {
+  sendLink: {
     marginTop: theme.margins.sm * 10,
+    marginBottom: theme.margins.xl,
   },
 }));
 

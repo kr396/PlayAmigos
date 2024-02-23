@@ -5,4 +5,5 @@ export const colors = {
   white: '#ffffff',
   blue: '#3559B5',
   lightBlue: '#F0F5FA',
+  transparent: 'transparent',
 };

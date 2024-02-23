@@ -1,4 +1,5 @@
 import {colors} from '.';
+import {fonts} from './fonts';
 
 export const lightTheme = {
   colors: {
@@ -9,13 +10,15 @@ export const lightTheme = {
     lightBlue: colors.lightBlue,
     white: colors.white,
     black: colors.black,
+    transparent: colors.transparent,
   },
   margins: {
-    sm: 2,
-    md: 4,
-    lg: 8,
-    xl: 12,
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16,
   },
+  fonts: fonts,
 } as const;
 
 export const darkTheme = {
@@ -27,11 +30,13 @@ export const darkTheme = {
     lightBlue: colors.lightBlue,
     white: colors.white,
     black: colors.black,
+    transparent: colors.transparent,
   },
   margins: {
-    sm: 2,
-    md: 4,
-    lg: 8,
-    xl: 12,
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16,
   },
+  fonts: fonts,
 } as const;
