@@ -3,12 +3,13 @@ import React, {FC, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useStyles} from 'react-native-unistyles';
+import {HttpStatusCode} from 'axios';
 
 import {RootStackParamList} from '../../navigation/types';
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
-
-type Props = {};
+import api from '../../api';
+import {endpoints} from '../../api/endpoints';
 
 const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
   navigation,
@@ -25,8 +26,21 @@ const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
   const [password, setPassword] = useState('');
   const [cPassword, setCPassword] = useState('');
 
-  const onSignUpPress = () => {
-    navigation.navigate('VerifyOTP');
+  const onSignUpPress = async () => {
+    try {
+      // TODO: Check email and password for validation
+      const response = await api.post(endpoints.signup, {
+        firstname: firstName,
+        lastname: lastName,
+        email,
+        password,
+      });
+      if (response.status === HttpStatusCode.Ok) {
+        navigation.navigate('VerifyOTP');
+      }
+    } catch (error) {
+      // TODO: Show error toast
+    }
   };
 
   return (
@@ -61,6 +75,9 @@ const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
             value={email}
             onChangeText={setEmail}
             returnKeyType="next"
+            textContentType="emailAddress"
+            keyboardType="email-address"
+            autoCapitalize={'none'}
             containerStyles={styles.input}
             onSubmitEditing={() => passwordRef.current?.focus()}
           />

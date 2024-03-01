@@ -75,7 +75,7 @@ const OnBoarding: FC<
 
   const renderItem = ({item}: {item: Item}) => {
     return (
-      <View style={styles.item}>
+      <View style={styles.item} key={item.id}>
         <View style={styles.image}></View>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.subTitle}>{item.subTitle}</Text>
@@ -100,7 +100,7 @@ const OnBoarding: FC<
         <View style={styles.bottomView}>
           <View style={styles.pivotContainer}>
             {data.map((_item, index) => (
-              <View style={styles.pivot(index, activeIndex)} />
+              <View style={styles.pivot(index, activeIndex)} key={index} />
             ))}
           </View>
           <View>

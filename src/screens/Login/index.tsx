@@ -7,6 +7,9 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
 import {RootStackParamList} from '../../navigation/types';
+import api from '../../api';
+import {endpoints} from '../../api/endpoints';
+import {HttpStatusCode} from 'axios';
 
 const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   navigation,
@@ -20,8 +23,20 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
     navigation.navigate('ForgotPassword');
   };
 
-  const onLoginPress = () => {
-    navigation.navigate('SignUp');
+  const onLoginPress = async () => {
+    try {
+      // TODO: Check email and password for validation
+      const response = await api.post(endpoints.login, {email, password});
+      if (
+        response.status === HttpStatusCode.Ok &&
+        response.data.meta?.status === 1
+      ) {
+      } else {
+        // TODO: show an error
+      }
+    } catch (error) {
+      // TODO: Show error toast
+    }
   };
 
   return (
@@ -35,6 +50,8 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
             value={email}
             onChangeText={setEmail}
             returnKeyType="next"
+            textContentType="emailAddress"
+            autoCapitalize="none"
             containerStyles={styles.input}
             onSubmitEditing={() => passwordRef.current?.focus()}
           />
@@ -44,6 +61,8 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
             value={password}
             onChangeText={setPassword}
             returnKeyType="done"
+            textContentType="password"
+            secureTextEntry={true}
             containerStyles={styles.input}
           />
           <View style={styles.row}>
@@ -55,6 +74,11 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
             title="Log In"
             style={styles.loginBtn}
             onPress={onLoginPress}
+          />
+          <ThemeButton
+            title="Sign Up"
+            style={styles.loginBtn}
+            onPress={() => navigation.navigate('SignUp')}
           />
         </KeyboardAwareScrollView>
       </View>

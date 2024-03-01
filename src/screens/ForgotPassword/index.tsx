@@ -6,6 +6,9 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
 import {RootStackParamList} from '../../navigation/types';
+import api from '../../api';
+import {endpoints} from '../../api/endpoints';
+import {HttpStatusCode} from 'axios';
 
 const ForgotPassword: FC<
   NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>
@@ -13,8 +16,17 @@ const ForgotPassword: FC<
   const {styles} = useStyles(stylesheet);
   const [email, setEmail] = useState('');
 
-  const onSendLinkPress = () => {
-    // TODO:
+  const onSendLinkPress = async () => {
+    try {
+      // TODO: add validation for email
+      const response = await api.post(endpoints.forgotPassword, {email});
+      if (response.status === HttpStatusCode.Ok) {
+        // TODO: Show success toast
+        navigation.goBack();
+      }
+    } catch (error) {
+      // TODO: Show error toast
+    }
   };
 
   return (
@@ -27,6 +39,8 @@ const ForgotPassword: FC<
           value={email}
           onChangeText={setEmail}
           returnKeyType="next"
+          textContentType="emailAddress"
+          autoCapitalize="none"
           containerStyles={styles.input}
         />
         <ThemeButton
