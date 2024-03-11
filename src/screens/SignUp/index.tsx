@@ -1,21 +1,24 @@
-import {View, Text, TextInput, Image} from 'react-native';
+import {View, Text, TextInput, Image, Pressable} from 'react-native';
 import React, {FC, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {useStyles} from 'react-native-unistyles';
 import {HttpStatusCode} from 'axios';
+import CheckBox from '@react-native-community/checkbox';
 
 import {RootStackParamList} from '../../navigation/types';
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
 import api from '../../api';
 import {endpoints} from '../../api/endpoints';
-import {images} from '../../config';
+import {images, strings} from '../../config';
+import Toast from 'react-native-toast-message';
+import {isValidEmail} from '../../utils/helpers';
 
 const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
   navigation,
 }) => {
-  const {styles} = useStyles(stylesheet);
+  const {styles, theme} = useStyles(stylesheet);
   const lastNameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
@@ -26,22 +29,117 @@ const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [cPassword, setCPassword] = useState('');
+  const [isTermsAccepted, setIsTermsAccepted] = useState(false);
 
   const onSignUpPress = async () => {
     try {
-      // TODO: Check email and password for validation
+      if (!firstName.trim()) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter first name',
+        });
+        return;
+      }
+      if (!lastName.trim()) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter last name',
+        });
+        return;
+      }
+      if (!email.trim()) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter email',
+        });
+        return;
+      }
+      if (!isValidEmail(email.trim())) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter valid email',
+        });
+        return;
+      }
+      if (!isValidEmail(email.trim())) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter valid email',
+        });
+        return;
+      }
+      if (!password) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter password',
+        });
+        return;
+      }
+      if (password.length < 6) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Length of password must be 6',
+        });
+        return;
+      }
+      if (!cPassword) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter confirm password',
+        });
+        return;
+      }
+      if (password !== cPassword) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Password and confirm password does bot match',
+        });
+        return;
+      }
+      if (!isTermsAccepted) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please accept terms and condition',
+        });
+        return;
+      }
       const response = await api.post(endpoints.signup, {
         firstname: firstName,
         lastname: lastName,
         email,
         password,
       });
-      if (response.status === HttpStatusCode.Ok) {
+      if (
+        response.status === HttpStatusCode.Ok &&
+        response.data?.meta.status === 1
+      ) {
         navigation.navigate('VerifyOTP');
       }
     } catch (error) {
       // TODO: Show error toast
     }
+  };
+
+  const onSignInPress = () => {
+    navigation.goBack();
+  };
+
+  const onTermsPress = () => {
+    // TODO:
+  };
+
+  const onPrivacyPress = () => {
+    // TODO:
   };
 
   return (
@@ -101,12 +199,38 @@ const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
             containerStyles={styles.input}
             secureTextEntry={true}
           />
-
+          <View style={styles.privacyLinkContainer}>
+            <CheckBox
+              disabled={false}
+              value={isTermsAccepted}
+              onValueChange={newValue => setIsTermsAccepted(newValue)}
+              style={styles.checkbox}
+              tintColors={{true: theme.colors.primary}}
+              boxType={'square'}
+            />
+            <Text style={styles.privacyText}>
+              By Signing up, you agree to the{' '}
+              <Text style={styles.themeText} onPress={onTermsPress}>
+                Terms of Service
+              </Text>{' '}
+              and
+              <Text style={styles.themeText} onPress={onPrivacyPress}>
+                {' '}
+                Privacy Policy
+              </Text>
+            </Text>
+          </View>
           <ThemeButton
             title="Sign Up"
             style={styles.loginBtn}
             onPress={onSignUpPress}
           />
+        </View>
+        <View style={styles.bottomRow}>
+          <Text style={styles.bottomText}>Don’t have an account?{'  '}</Text>
+          <Pressable onPress={onSignInPress}>
+            <Text style={styles.signInText}>Sign In</Text>
+          </Pressable>
         </View>
       </KeyboardAwareScrollView>
     </View>

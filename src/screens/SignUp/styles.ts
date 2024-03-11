@@ -35,6 +35,40 @@ const stylesheet = createStyleSheet(theme => ({
   loginBtn: {
     marginTop: theme.margins.sm * 10,
   },
+  bottomText: {
+    color: theme.colors.typography2,
+    fontSize: 14,
+  },
+  content: {
+    flexGrow: 1,
+  },
+  signInText: {
+    fontFamily: theme.fonts.semiBold,
+    color: theme.colors.primary,
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: theme.margins.xl,
+  },
+  privacyLinkContainer: {
+    flexDirection: 'row',
+    marginTop: theme.margins.lg * 2,
+  },
+  privacyText: {
+    fontSize: 13,
+    fontFamily: theme.fonts.medium,
+    color: theme.colors.typography2,
+    marginHorizontal: theme.margins.lg,
+  },
+  themeText: {
+    color: theme.colors.primary,
+  },
+  checkbox: {
+    height: 20,
+    width: 20,
+  },
 }));
 
 export default stylesheet;

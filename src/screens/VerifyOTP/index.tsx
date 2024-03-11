@@ -10,7 +10,8 @@ import {images} from '../../config';
 
 const VerifyOTP: FC<
   NativeStackScreenProps<RootStackParamList, 'VerifyOTP'>
-> = ({navigation}) => {
+> = ({navigation, route}) => {
+  const email = route.params.email;
   const {styles} = useStyles(stylesheet);
   const [otp, setOTP] = useState('');
 
@@ -23,6 +24,8 @@ const VerifyOTP: FC<
       <Image style={styles.image} source={images.verifyOtpBg} />
       <View style={styles.main}>
         <Text style={styles.title}>You’re Almost there</Text>
+        <Text style={styles.grayText}>We have sent a code to your email</Text>
+        <Text>{email}</Text>
         <InputText
           label="Enter OTP"
           value={otp}

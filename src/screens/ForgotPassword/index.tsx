@@ -2,6 +2,7 @@ import {View, Text, Image} from 'react-native';
 import React, {FC, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Toast from 'react-native-toast-message';
 
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
@@ -9,7 +10,8 @@ import {RootStackParamList} from '../../navigation/types';
 import api from '../../api';
 import {endpoints} from '../../api/endpoints';
 import {HttpStatusCode} from 'axios';
-import {images} from '../../config';
+import {images, strings} from '../../config';
+import {isValidEmail} from '../../utils/helpers';
 
 const ForgotPassword: FC<
   NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>
@@ -19,11 +21,38 @@ const ForgotPassword: FC<
 
   const onSendLinkPress = async () => {
     try {
-      // TODO: add validation for email
+      if (!email) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter email',
+        });
+        return;
+      }
+      if (!isValidEmail(email)) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter valid email',
+        });
+        return;
+      }
       const response = await api.post(endpoints.forgotPassword, {email});
       if (response.status === HttpStatusCode.Ok) {
-        // TODO: Show success toast
-        navigation.goBack();
+        if (response.data?.meta?.status === 1) {
+          Toast.show({
+            type: 'success',
+            text1: strings.success,
+            text2: response.data?.meta?.message,
+          });
+          navigation.goBack();
+        } else {
+          Toast.show({
+            type: 'error',
+            text1: strings.error,
+            text2: response.data?.meta?.message,
+          });
+        }
       }
     } catch (error) {
       // TODO: Show error toast

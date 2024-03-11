@@ -15,11 +15,11 @@ const Route = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen name="OnBoarding" component={SelectSports} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
         <Stack.Screen name="SignUp" component={SignUp} />
         <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+        <Stack.Screen name="OnBoarding" component={SelectSports} />
       </Stack.Navigator>
     </NavigationContainer>
   );

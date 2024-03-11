@@ -1,4 +1,5 @@
 import {
+  ActivityIndicator,
   GestureResponderEvent,
   Pressable,
   StyleProp,
@@ -14,6 +15,7 @@ type Props = {
   mode?: 'default' | 'clear';
   style?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
+  loading?: boolean;
   onPress?: null | ((event: GestureResponderEvent) => void) | undefined;
 };
 
@@ -22,9 +24,10 @@ export const ThemeButton: FC<Props> = ({
   mode = 'default',
   style,
   titleStyle,
+  loading,
   onPress,
 }) => {
-  const {styles} = useStyles(styleSheet);
+  const {styles, theme} = useStyles(styleSheet);
   if (mode === 'clear') {
     return (
       <Pressable style={[styles.clearButtonContainer, style]} onPress={onPress}>
@@ -35,6 +38,12 @@ export const ThemeButton: FC<Props> = ({
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
+      {loading && (
+        <ActivityIndicator
+          color={theme.colors.white}
+          style={styles.loaderStyle}
+        />
+      )}
     </Pressable>
   );
 };
@@ -42,6 +51,7 @@ export const ThemeButton: FC<Props> = ({
 const styleSheet = createStyleSheet(theme => ({
   container: {
     height: 48,
+    flexDirection: 'row',
     backgroundColor: theme.colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
@@ -62,5 +72,8 @@ const styleSheet = createStyleSheet(theme => ({
     lineHeight: 22.5,
     fontFamily: theme.fonts.regular,
     color: theme.colors.typography2,
+  },
+  loaderStyle: {
+    marginLeft: theme.margins.lg,
   },
 }));

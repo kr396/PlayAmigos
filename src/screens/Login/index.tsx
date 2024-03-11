@@ -1,8 +1,9 @@
-import {View, Text, TextInput, Image} from 'react-native';
+import {View, Text, TextInput, Image, Pressable} from 'react-native';
 import React, {FC, useRef, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Toast from 'react-native-toast-message';
 
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
@@ -10,7 +11,8 @@ import {RootStackParamList} from '../../navigation/types';
 import api from '../../api';
 import {endpoints} from '../../api/endpoints';
 import {HttpStatusCode} from 'axios';
-import {images} from '../../config';
+import {images, strings} from '../../config';
+import {isValidEmail} from '../../utils/helpers';
 
 const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   navigation,
@@ -19,68 +21,113 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   const passwordRef = useRef<TextInput>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const onForgotPassPress = () => {
-    navigation.navigate('VerifyOTP');
+    navigation.navigate('ForgotPassword');
   };
 
   const onLoginPress = async () => {
     try {
-      // TODO: Check email and password for validation
-      const response = await api.post(endpoints.login, {email, password});
+      if (!email) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter email',
+        });
+        return;
+      }
+      if (!isValidEmail(email)) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter valid email',
+        });
+        return;
+      }
+      if (!password) {
+        Toast.show({
+          type: 'error',
+          text1: strings.validationError,
+          text2: 'Please enter password',
+        });
+        return;
+      }
+      setLoading(true);
+      const response = await api.post(endpoints.login, {
+        email: email.trim(),
+        password,
+      });
       if (
         response.status === HttpStatusCode.Ok &&
         response.data.meta?.status === 1
       ) {
       } else {
+        Toast.show({
+          type: 'error',
+          text1: strings.error,
+          text2: response.data?.meta?.message,
+        });
         // TODO: show an error
       }
     } catch (error) {
       // TODO: Show error toast
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const onSignUpPress = () => {
+    navigation.navigate('SignUp');
   };
 
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={images.loginBackground} />
       <View style={styles.main}>
-        <KeyboardAwareScrollView style={styles.scrollView}>
-          <Text style={styles.title}>Welcome back!</Text>
-          <InputText
-            label="Email"
-            value={email}
-            onChangeText={setEmail}
-            returnKeyType="next"
-            textContentType="emailAddress"
-            autoCapitalize="none"
-            containerStyles={styles.input}
-            onSubmitEditing={() => passwordRef.current?.focus()}
-          />
-          <InputText
-            ref={passwordRef}
-            label="Password"
-            value={password}
-            onChangeText={setPassword}
-            returnKeyType="done"
-            textContentType="password"
-            secureTextEntry={true}
-            containerStyles={styles.input}
-          />
-          <View style={styles.row}>
-            <Text style={styles.forgotPass} onPress={onForgotPassPress}>
-              Forgot Password
-            </Text>
+        <KeyboardAwareScrollView
+          contentContainerStyle={styles.scrollView}
+          bounces={false}>
+          <View style={styles.content}>
+            <Text style={styles.title}>Welcome back!</Text>
+            <InputText
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              returnKeyType="next"
+              textContentType="emailAddress"
+              autoCapitalize="none"
+              containerStyles={styles.input}
+              onSubmitEditing={() => passwordRef.current?.focus()}
+            />
+            <InputText
+              ref={passwordRef}
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              returnKeyType="done"
+              textContentType="password"
+              secureTextEntry={true}
+              containerStyles={styles.input}
+            />
+            <View style={styles.row}>
+              <Text style={styles.forgotPass} onPress={onForgotPassPress}>
+                Forgot Password
+              </Text>
+            </View>
+            <ThemeButton
+              title="Log In"
+              style={styles.loginBtn}
+              loading={loading}
+              onPress={onLoginPress}
+            />
           </View>
-          <ThemeButton
-            title="Log In"
-            style={styles.loginBtn}
-            onPress={onLoginPress}
-          />
-          <ThemeButton
-            title="Sign Up"
-            style={styles.loginBtn}
-            onPress={() => navigation.navigate('SignUp')}
-          />
+          <View style={styles.bottomRow}>
+            <Text style={styles.bottomText}>Don’t have an account?{'  '}</Text>
+            <Pressable onPress={onSignUpPress}>
+              <Text style={styles.signUpText}>Sign Up</Text>
+            </Pressable>
+          </View>
         </KeyboardAwareScrollView>
       </View>
     </View>

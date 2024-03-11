@@ -30,6 +30,12 @@ const stylesheet = createStyleSheet(theme => ({
     marginTop: theme.margins.sm * 10,
     marginBottom: theme.margins.xl,
   },
+  grayText: {
+    fontSize: 16,
+    fontFamily: theme.fonts.regular,
+    color: theme.colors.typography2,
+    marginTop: theme.margins.md,
+  },
 }));
 
 export default stylesheet;

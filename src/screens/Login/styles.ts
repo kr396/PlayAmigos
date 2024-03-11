@@ -17,7 +17,7 @@ const stylesheet = createStyleSheet(theme => ({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     backgroundColor: theme.colors.background,
-    top: UnistylesRuntime.screen.width - 16,
+    marginTop: UnistylesRuntime.screen.width - 16,
   },
   scrollView: {
     flex: 1,
@@ -42,6 +42,23 @@ const stylesheet = createStyleSheet(theme => ({
   },
   loginBtn: {
     marginTop: theme.margins.sm * 10,
+  },
+  bottomText: {
+    color: theme.colors.typography2,
+    fontSize: 14,
+  },
+  content: {
+    flexGrow: 1,
+  },
+  signUpText: {
+    fontFamily: theme.fonts.semiBold,
+    color: theme.colors.primary,
+  },
+  bottomRow: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginBottom: theme.margins.xl,
   },
 }));
 

@@ -3,5 +3,5 @@ export type RootStackParamList = {
   Login: undefined;
   ForgotPassword: undefined;
   SignUp: undefined;
-  VerifyOTP: undefined;
+  VerifyOTP: {email: string};
 };
