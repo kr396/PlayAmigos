@@ -7,7 +7,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   image: {
     position: 'absolute',
-    height: UnistylesRuntime.screen.width * 0.7,
+    // height: UnistylesRuntime.screen.width * 0.7,
     width: UnistylesRuntime.screen.width,
     backgroundColor: theme.colors.typography2,
   },
@@ -21,7 +21,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   scrollView: {
     flexGrow: 1,
-    paddingTop: UnistylesRuntime.screen.width * 0.7,
+    paddingTop: UnistylesRuntime.screen.width * 0.4,
     paddingBottom: 40,
   },
   title: {

@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React, {FC, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -9,6 +9,7 @@ import {RootStackParamList} from '../../navigation/types';
 import api from '../../api';
 import {endpoints} from '../../api/endpoints';
 import {HttpStatusCode} from 'axios';
+import {images} from '../../config';
 
 const ForgotPassword: FC<
   NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>
@@ -31,7 +32,7 @@ const ForgotPassword: FC<
 
   return (
     <View style={styles.container}>
-      <View style={styles.image}></View>
+      <Image style={styles.image} source={images.forgotPassBg} />
       <View style={styles.main}>
         <Text style={styles.title}>Forgot Password</Text>
         <InputText

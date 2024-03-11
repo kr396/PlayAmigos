@@ -6,4 +6,5 @@ export const colors = {
   blue: '#3559B5',
   lightBlue: '#F0F5FA',
   transparent: 'transparent',
+  offWhite: '#F5F5F5',
 };

@@ -1,4 +1,11 @@
-import {View, Text, FlatList, ViewToken} from 'react-native';
+import {
+  View,
+  Text,
+  FlatList,
+  ViewToken,
+  Image,
+  ImageSourcePropType,
+} from 'react-native';
 import React, {FC, useCallback, useRef, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -7,11 +14,13 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import stylesheet from './styles';
 import {ThemeButton} from '../../components';
 import {RootStackParamList} from '../../navigation/types';
+import {images} from '../../config';
 
 type Item = {
   id: number;
   title: string;
   subTitle: string;
+  image: ImageSourcePropType;
 };
 
 const OnBoarding: FC<
@@ -26,11 +35,13 @@ const OnBoarding: FC<
       id: 1,
       title: 'Find Player in Your \n Neighbourhood',
       subTitle: 'Just like you did as a  kid',
+      image: images.slider1,
     },
     {
       id: 2,
       title: 'Book Venues to Play \nwith Friends',
       subTitle: 'Get your Squad to play together',
+      image: images.slider2,
     },
   ];
 
@@ -76,7 +87,7 @@ const OnBoarding: FC<
   const renderItem = ({item}: {item: Item}) => {
     return (
       <View style={styles.item} key={item.id}>
-        <View style={styles.image}></View>
+        <Image source={item.image} style={styles.image} />
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.subTitle}>{item.subTitle}</Text>
       </View>

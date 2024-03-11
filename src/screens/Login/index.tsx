@@ -1,4 +1,4 @@
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, Image} from 'react-native';
 import React, {FC, useRef, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -10,6 +10,7 @@ import {RootStackParamList} from '../../navigation/types';
 import api from '../../api';
 import {endpoints} from '../../api/endpoints';
 import {HttpStatusCode} from 'axios';
+import {images} from '../../config';
 
 const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   navigation,
@@ -20,7 +21,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   const [password, setPassword] = useState('');
 
   const onForgotPassPress = () => {
-    navigation.navigate('ForgotPassword');
+    navigation.navigate('VerifyOTP');
   };
 
   const onLoginPress = async () => {
@@ -41,7 +42,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.image}></View>
+      <Image style={styles.image} source={images.loginBackground} />
       <View style={styles.main}>
         <KeyboardAwareScrollView style={styles.scrollView}>
           <Text style={styles.title}>Welcome back!</Text>

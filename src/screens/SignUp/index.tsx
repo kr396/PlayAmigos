@@ -1,4 +1,4 @@
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, Image} from 'react-native';
 import React, {FC, useRef, useState} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -10,6 +10,7 @@ import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
 import api from '../../api';
 import {endpoints} from '../../api/endpoints';
+import {images} from '../../config';
 
 const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
   navigation,
@@ -45,7 +46,7 @@ const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
 
   return (
     <View style={styles.container}>
-      <View style={styles.image}></View>
+      <Image style={styles.image} source={images.signupBackground} />
       <KeyboardAwareScrollView
         contentContainerStyle={styles.scrollView}
         showsVerticalScrollIndicator={false}

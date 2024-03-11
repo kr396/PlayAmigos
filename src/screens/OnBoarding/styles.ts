@@ -1,5 +1,4 @@
 import {UnistylesRuntime, createStyleSheet} from 'react-native-unistyles';
-import {fonts} from '../../config/fonts';
 
 const stylesheet = createStyleSheet(theme => ({
   safeArea: {
@@ -18,8 +17,6 @@ const stylesheet = createStyleSheet(theme => ({
   },
   image: {
     width: UnistylesRuntime.screen.width,
-    height: UnistylesRuntime.screen.width,
-    backgroundColor: theme.colors.typography2,
   },
   title: {
     textAlign: 'center',

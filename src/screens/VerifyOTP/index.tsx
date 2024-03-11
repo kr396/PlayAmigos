@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native';
+import {Image, Text, View} from 'react-native';
 import React, {FC, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -6,6 +6,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
 import {RootStackParamList} from '../../navigation/types';
+import {images} from '../../config';
 
 const VerifyOTP: FC<
   NativeStackScreenProps<RootStackParamList, 'VerifyOTP'>
@@ -19,7 +20,7 @@ const VerifyOTP: FC<
 
   return (
     <View style={styles.container}>
-      <View style={styles.image}></View>
+      <Image style={styles.image} source={images.verifyOtpBg} />
       <View style={styles.main}>
         <Text style={styles.title}>You’re Almost there</Text>
         <InputText

@@ -6,7 +6,8 @@ const stylesheet = createStyleSheet(theme => ({
     backgroundColor: theme.colors.background,
   },
   image: {
-    height: UnistylesRuntime.screen.width * 0.7,
+    position: 'absolute',
+    height: UnistylesRuntime.screen.width,
     width: UnistylesRuntime.screen.width,
     backgroundColor: theme.colors.typography2,
   },
@@ -16,7 +17,7 @@ const stylesheet = createStyleSheet(theme => ({
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
     backgroundColor: theme.colors.background,
-    top: -16,
+    top: UnistylesRuntime.screen.width - 16,
   },
   scrollView: {
     flex: 1,

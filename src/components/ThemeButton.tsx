@@ -24,7 +24,7 @@ export const ThemeButton: FC<Props> = ({
   titleStyle,
   onPress,
 }) => {
-  const {styles, theme} = useStyles(styleSheet);
+  const {styles} = useStyles(styleSheet);
   if (mode === 'clear') {
     return (
       <Pressable style={[styles.clearButtonContainer, style]} onPress={onPress}>

@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, {FC, forwardRef} from 'react';
+import React, {forwardRef} from 'react';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 type Props = {
