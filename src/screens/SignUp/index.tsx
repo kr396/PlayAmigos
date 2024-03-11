@@ -14,11 +14,14 @@ import {endpoints} from '../../api/endpoints';
 import {images, strings} from '../../config';
 import Toast from 'react-native-toast-message';
 import {isValidEmail} from '../../utils/helpers';
+import {setAuthToken} from '../../redux/commonSlice/userSlice';
+import {useAppDispatch} from '../../redux/hooks';
 
 const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
   navigation,
 }) => {
   const {styles, theme} = useStyles(stylesheet);
+  const dispatch = useAppDispatch();
   const lastNameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
@@ -123,7 +126,15 @@ const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
         response.status === HttpStatusCode.Ok &&
         response.data?.meta.status === 1
       ) {
-        navigation.navigate('VerifyOTP');
+        dispatch(setAuthToken(response.data.meta.tokenData));
+
+        navigation.navigate('VerifyOTP', {email});
+      } else {
+        Toast.show({
+          type: 'error',
+          text1: strings.error,
+          text2: response.data?.meta?.message,
+        });
       }
     } catch (error) {
       // TODO: Show error toast

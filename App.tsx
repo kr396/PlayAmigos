@@ -7,16 +7,20 @@
 
 import React from 'react';
 import Toast from 'react-native-toast-message';
+import {Provider} from 'react-redux';
 
 import './src/config';
 import Route from './src/navigation';
 import './src/config/unistyles';
+import {store} from './src/redux/store';
 
 function App(): React.JSX.Element {
   return (
     <>
-      <Route />
-      <Toast />
+      <Provider store={store}>
+        <Route />
+        <Toast />
+      </Provider>
     </>
   );
 }

@@ -13,7 +13,7 @@ import stylesheet from './styles';
 import {Header, ThemeButton} from '../../components';
 import {SearchIcon} from '../../config/svgs';
 
-const SelectSports = () => {
+const SelectSports = ({navigation}) => {
   const {styles, theme} = useStyles(stylesheet);
   const data = [
     {
@@ -83,10 +83,14 @@ const SelectSports = () => {
     );
   };
 
+  const onSubmitPress = () => {
+    navigation.navigate('Home');
+  };
+
   return (
     <SafeAreaView style={styles.safearea}>
       <View style={styles.container}>
-        <Header title="What Do You Wanna Play?" />
+        <Header title="What Do You Wanna Play?" showBack={false} />
         <View style={styles.searchContainer}>
           <View style={styles.searchView}>
             <SearchIcon />
@@ -110,7 +114,7 @@ const SelectSports = () => {
           />
         </View>
         <View style={styles.bottomView}>
-          <ThemeButton title="Make My Debute" />
+          <ThemeButton title="Make My Debute" onPress={onSubmitPress} />
         </View>
       </View>
     </SafeAreaView>

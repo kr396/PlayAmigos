@@ -2,6 +2,7 @@ import axios from 'axios';
 import {Platform} from 'react-native';
 import {getVersion} from 'react-native-device-info';
 import {urls} from '../config';
+import {store} from '../redux/store';
 
 const api = axios.create({
   baseURL: urls.baseURL + 'api/v1/',
@@ -14,6 +15,10 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
   function (config) {
+    const token = store.getState().userState.token;
+    if (token) {
+      config.headers.Authorization = token;
+    }
     // Do something before request is sent
     return config;
   },

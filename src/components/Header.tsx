@@ -6,19 +6,27 @@ import {useNavigation} from '@react-navigation/native';
 
 type Props = {
   title: string;
+  showBack: boolean;
   onRightButtonPress?: () => void;
 };
 
-export const Header: FC<Props> = ({title, onRightButtonPress}) => {
+export const Header: FC<Props> = ({
+  title,
+  showBack = true,
+  onRightButtonPress,
+}) => {
   const {styles} = useStyles(stylesheet);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Pressable
-        style={styles.rightButton}
-        onPress={onRightButtonPress || navigation.goBack}>
-        <ArrowLeftIcon />
-      </Pressable>
+      {showBack && (
+        <Pressable
+          style={styles.rightButton}
+          onPress={onRightButtonPress || navigation.goBack}>
+          <ArrowLeftIcon />
+        </Pressable>
+      )}
+
       <Text style={styles.title}>{title}</Text>
     </View>
   );

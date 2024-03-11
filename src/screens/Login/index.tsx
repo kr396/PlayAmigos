@@ -13,11 +13,15 @@ import {endpoints} from '../../api/endpoints';
 import {HttpStatusCode} from 'axios';
 import {images, strings} from '../../config';
 import {isValidEmail} from '../../utils/helpers';
+import {LoginResponse} from './types';
+import {useAppDispatch} from '../../redux/hooks';
+import {setAuthToken} from '../../redux/commonSlice/userSlice';
 
 const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   navigation,
 }) => {
   const {styles} = useStyles(stylesheet);
+  const dispatch = useAppDispatch();
   const passwordRef = useRef<TextInput>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -54,7 +58,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
         return;
       }
       setLoading(true);
-      const response = await api.post(endpoints.login, {
+      const response = await api.post<LoginResponse>(endpoints.login, {
         email: email.trim(),
         password,
       });
@@ -62,16 +66,30 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
         response.status === HttpStatusCode.Ok &&
         response.data.meta?.status === 1
       ) {
+        dispatch(setAuthToken(response.data.meta.tokenData));
+        if (!response.data.meta.isEmailVerified) {
+          navigation.navigate('VerifyOTP', {email});
+        } else {
+          if (!response.data.data.isSportAdded) {
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'SelectSports'}],
+            });
+          } else {
+            navigation.reset({
+              index: 0,
+              routes: [{name: 'Home'}],
+            });
+          }
+        }
       } else {
         Toast.show({
           type: 'error',
           text1: strings.error,
           text2: response.data?.meta?.message,
         });
-        // TODO: show an error
       }
     } catch (error) {
-      // TODO: Show error toast
     } finally {
       setLoading(false);
     }
