@@ -3,6 +3,7 @@ import {Platform} from 'react-native';
 import {getVersion} from 'react-native-device-info';
 import {urls} from '../config';
 import {store} from '../redux/store';
+import {setLoading} from '../redux/commonSlice/appSlice';
 
 const api = axios.create({
   baseURL: urls.baseURL + 'api/v1/',
@@ -15,6 +16,7 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
   function (config) {
+    store.dispatch(setLoading(true));
     const token = store.getState().userState.token;
     if (token) {
       config.headers.Authorization = token;
@@ -24,6 +26,7 @@ api.interceptors.request.use(
   },
   function (error) {
     // Do something with request error
+    store.dispatch(setLoading(false));
     return Promise.reject(error);
   },
 );
@@ -33,6 +36,7 @@ api.interceptors.response.use(
   function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
+    store.dispatch(setLoading(false));
     return response;
   },
   function (error) {
@@ -43,6 +47,7 @@ api.interceptors.response.use(
     // });
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    store.dispatch(setLoading(false));
     return Promise.reject(error);
   },
 );

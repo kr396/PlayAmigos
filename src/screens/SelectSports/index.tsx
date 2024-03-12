@@ -7,78 +7,37 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import React from 'react';
+import React, {FC, useEffect} from 'react';
 import {useStyles} from 'react-native-unistyles';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import stylesheet from './styles';
 import {Header, ThemeButton} from '../../components';
 import {SearchIcon} from '../../config/svgs';
+import {RootStackParamList} from '../../navigation/types';
+import {Sport} from '../../types';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {getSportsAPI, getSportsList} from '../../redux/commonSlice/commonSlice';
 
-const SelectSports = ({navigation}) => {
+const SelectSports: FC<
+  NativeStackScreenProps<RootStackParamList, 'SelectSports'>
+> = ({navigation}) => {
   const {styles, theme} = useStyles(stylesheet);
-  const data = [
-    {
-      title: 'Badminton',
-    },
-    {
-      title: 'Basketball',
-    },
-    {
-      title: 'Tennis',
-    },
-    {
-      title: 'Badminton',
-    },
-    {
-      title: 'Basketball',
-    },
-    {
-      title: 'Tennis',
-    },
-    {
-      title: 'Badminton',
-    },
-    {
-      title: 'Basketball',
-    },
-    {
-      title: 'Tennis',
-    },
-    {
-      title: 'Badminton',
-    },
-    {
-      title: 'Basketball',
-    },
-    {
-      title: 'Tennis',
-    },
-    {
-      title: 'Badminton',
-    },
-    {
-      title: 'Basketball',
-    },
-    {
-      title: 'Tennis',
-    },
-    {
-      title: 'Badminton',
-    },
-    {
-      title: 'Basketball',
-    },
-    {
-      title: 'Tennis',
-    },
-  ];
+  const sports = useAppSelector(getSportsList);
+  const dispatch = useAppDispatch();
 
-  const renderSport = ({item, index}) => {
+  useEffect(() => {
+    dispatch(getSportsAPI());
+    return () => {};
+  }, [dispatch]);
+
+  const renderSport = ({item, index}: {item: Sport; index: number}) => {
     const isLeft = index % 2 === 0;
 
     return (
       <Pressable style={styles.sportCard(isLeft)}>
-        <Image style={styles.sportIcon} />
-        <Text>{item.title}</Text>
+        <Image style={styles.sportIcon} source={{uri: item.image}} />
+        <Text style={styles.sportName}>{item.name}</Text>
       </Pressable>
     );
   };
@@ -106,7 +65,7 @@ const SelectSports = ({navigation}) => {
             Here are Some Sports On Playo
           </Text>
           <FlatList
-            data={data}
+            data={sports}
             renderItem={renderSport}
             contentContainerStyle={styles.listStyle}
             numColumns={2}

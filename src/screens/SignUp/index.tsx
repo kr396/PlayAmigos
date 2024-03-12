@@ -15,13 +15,16 @@ import {images, strings} from '../../config';
 import Toast from 'react-native-toast-message';
 import {isValidEmail} from '../../utils/helpers';
 import {setAuthToken} from '../../redux/commonSlice/userSlice';
-import {useAppDispatch} from '../../redux/hooks';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
+import {getAppLoading} from '../../redux/commonSlice/appSlice';
 
 const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
   navigation,
 }) => {
   const {styles, theme} = useStyles(stylesheet);
   const dispatch = useAppDispatch();
+  const loading = useAppSelector(getAppLoading);
+
   const lastNameRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
   const passwordRef = useRef<TextInput>(null);
@@ -235,6 +238,7 @@ const SignUp: FC<NativeStackScreenProps<RootStackParamList, 'SignUp'>> = ({
             title="Sign Up"
             style={styles.loginBtn}
             onPress={onSignUpPress}
+            loading={loading}
           />
         </View>
         <View style={styles.bottomRow}>

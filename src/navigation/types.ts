@@ -7,3 +7,9 @@ export type RootStackParamList = {
   Home: undefined;
   SelectSports: undefined;
 };
+
+export type BottomTabParamList = {
+  Home: undefined;
+  Play: undefined;
+  Profile: undefined;
+};

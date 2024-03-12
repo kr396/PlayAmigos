@@ -44,19 +44,24 @@ const stylesheet = createStyleSheet(theme => ({
     marginLeft: !isLeft ? 8 : 0,
     borderRadius: 8,
     paddingHorizontal: 20,
-    paddingVertical: 8,
+    paddingVertical: 14,
   }),
   sportIcon: {
     height: 20,
     width: 20,
     marginBottom: theme.margins.sm,
-    backgroundColor: theme.colors.typography2,
   },
   bottomView: {
     backgroundColor: theme.colors.white,
     padding: theme.margins.xl,
   },
   listStyle: {gap: 16},
+  sportName: {
+    color: theme.colors.black,
+    fontSize: 12,
+    fontFamily: theme.fonts.regular,
+    lineHeight: 18,
+  },
 }));
 
 export default stylesheet;

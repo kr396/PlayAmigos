@@ -12,12 +12,15 @@ import {endpoints} from '../../api/endpoints';
 import {HttpStatusCode} from 'axios';
 import {images, strings} from '../../config';
 import {isValidEmail} from '../../utils/helpers';
+import {useAppSelector} from '../../redux/hooks';
+import {getAppLoading} from '../../redux/commonSlice/appSlice';
 
 const ForgotPassword: FC<
   NativeStackScreenProps<RootStackParamList, 'ForgotPassword'>
 > = ({navigation}) => {
   const {styles} = useStyles(stylesheet);
   const [email, setEmail] = useState('');
+  const loading = useAppSelector(getAppLoading);
 
   const onSendLinkPress = async () => {
     try {
@@ -77,6 +80,7 @@ const ForgotPassword: FC<
           title="Send Link"
           style={styles.sendLink}
           onPress={onSendLinkPress}
+          loading={loading}
         />
         <ThemeButton title="Back" mode={'clear'} onPress={navigation.goBack} />
       </View>

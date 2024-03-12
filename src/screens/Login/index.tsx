@@ -14,18 +14,19 @@ import {HttpStatusCode} from 'axios';
 import {images, strings} from '../../config';
 import {isValidEmail} from '../../utils/helpers';
 import {LoginResponse} from './types';
-import {useAppDispatch} from '../../redux/hooks';
+import {useAppDispatch, useAppSelector} from '../../redux/hooks';
 import {setAuthToken} from '../../redux/commonSlice/userSlice';
+import {getAppLoading} from '../../redux/commonSlice/appSlice';
 
 const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   navigation,
 }) => {
   const {styles} = useStyles(stylesheet);
   const dispatch = useAppDispatch();
+  const loading = useAppSelector(getAppLoading);
   const passwordRef = useRef<TextInput>(null);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const onForgotPassPress = () => {
     navigation.navigate('ForgotPassword');
@@ -57,7 +58,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
         });
         return;
       }
-      setLoading(true);
+
       const response = await api.post<LoginResponse>(endpoints.login, {
         email: email.trim(),
         password,
@@ -89,10 +90,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
           text2: response.data?.meta?.message,
         });
       }
-    } catch (error) {
-    } finally {
-      setLoading(false);
-    }
+    } catch (error) {}
   };
 
   const onSignUpPress = () => {

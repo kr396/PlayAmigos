@@ -3,4 +3,5 @@ export const endpoints = {
   forgotPassword: 'user/forgot-password',
   signup: 'user/signup',
   verifyUser: 'user/verify-user',
+  getSports: 'user/get-sports',
 };
