@@ -7,7 +7,7 @@ import {
   Pressable,
   Image,
 } from 'react-native';
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 
@@ -17,7 +17,12 @@ import {SearchIcon} from '../../config/svgs';
 import {RootStackParamList} from '../../navigation/types';
 import {Sport} from '../../types';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {getSportsAPI, getSportsList} from '../../redux/commonSlice/commonSlice';
+import {
+  getSkillsAPI,
+  getSportsAPI,
+  getSportsList,
+} from '../../redux/commonSlice/commonSlice';
+import LevelModal from './components/LevelModal';
 
 const SelectSports: FC<
   NativeStackScreenProps<RootStackParamList, 'SelectSports'>
@@ -25,25 +30,67 @@ const SelectSports: FC<
   const {styles, theme} = useStyles(stylesheet);
   const sports = useAppSelector(getSportsList);
   const dispatch = useAppDispatch();
+  const [searchText, setSearchText] = useState('');
+  const [selectedSports, setSelectedSports] = useState<Sport[]>([]);
+  const [showLevelModal, setShowLevelModal] = useState(false);
+  const [currentSportItem, setCurrentSportItem] = useState<Sport | null>(null);
+  // const buttonDisabled = selectedSports.length < 1;
 
   useEffect(() => {
     dispatch(getSportsAPI());
+    dispatch(getSkillsAPI());
     return () => {};
   }, [dispatch]);
 
-  const renderSport = ({item, index}: {item: Sport; index: number}) => {
-    const isLeft = index % 2 === 0;
-
-    return (
-      <Pressable style={styles.sportCard(isLeft)}>
-        <Image style={styles.sportIcon} source={{uri: item.image}} />
-        <Text style={styles.sportName}>{item.name}</Text>
-      </Pressable>
-    );
-  };
+  const filteredSports = useMemo(
+    () =>
+      sports.filter(sport =>
+        sport.name.toLocaleLowerCase().includes(searchText.toLocaleLowerCase()),
+      ),
+    [searchText, sports],
+  );
 
   const onSubmitPress = () => {
     navigation.navigate('Home');
+  };
+
+  const onSportPress = (item: Sport) => {
+    setShowLevelModal(true);
+    let updatedSports = [...selectedSports];
+    const index = updatedSports.findIndex(sport => sport.id === item.id);
+    if (index > -1) {
+      setSelectedSports(selectedSports.filter(sport => sport.id !== item.id));
+    } else {
+      setCurrentSportItem(item);
+      setShowLevelModal(true);
+      // setSelectedSports([...selectedSports, item]);
+    }
+  };
+
+  const onSkillSelect = (id: number) => {
+    setSelectedSports([...selectedSports, {...currentSportItem, skillId: id}]);
+    onModalClose();
+  };
+
+  const onModalClose = () => {
+    setShowLevelModal(false);
+    setCurrentSportItem(null);
+  };
+
+  const renderSport = ({item, index}: {item: Sport; index: number}) => {
+    const isLeft = index % 2 === 0;
+    const isSelected = selectedSports.some(sport => sport.id === item.id);
+    return (
+      <Pressable
+        style={styles.sportCard(isLeft, isSelected)}
+        onPress={() => onSportPress(item)}>
+        <Image
+          style={styles.sportIcon(isSelected)}
+          source={{uri: item.image}}
+        />
+        <Text style={styles.sportName(isSelected)}>{item.name}</Text>
+      </Pressable>
+    );
   };
 
   return (
@@ -54,6 +101,8 @@ const SelectSports: FC<
           <View style={styles.searchView}>
             <SearchIcon />
             <TextInput
+              value={searchText}
+              onChangeText={setSearchText}
               style={styles.searchInput}
               placeholder="Search by sports name..."
               selectionColor={theme.colors.black}
@@ -65,7 +114,7 @@ const SelectSports: FC<
             Here are Some Sports On Playo
           </Text>
           <FlatList
-            data={sports}
+            data={filteredSports}
             renderItem={renderSport}
             contentContainerStyle={styles.listStyle}
             numColumns={2}
@@ -76,6 +125,13 @@ const SelectSports: FC<
           <ThemeButton title="Make My Debute" onPress={onSubmitPress} />
         </View>
       </View>
+      {showLevelModal && (
+        <LevelModal
+          visible={showLevelModal}
+          onRequestClose={onModalClose}
+          onSkillSelect={onSkillSelect}
+        />
+      )}
     </SafeAreaView>
   );
 };

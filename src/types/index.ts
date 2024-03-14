@@ -4,3 +4,9 @@ export type Sport = {
   image: string;
   description: string;
 };
+
+export type Skill = {
+  id: number;
+  name: string;
+  description: string;
+};

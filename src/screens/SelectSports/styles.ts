@@ -37,7 +37,7 @@ const stylesheet = createStyleSheet(theme => ({
     flex: 1,
     paddingHorizontal: 16,
   },
-  sportCard: (isLeft: boolean) => ({
+  sportCard: (isLeft: boolean, isSelected: boolean) => ({
     backgroundColor: theme.colors.white,
     flex: 1,
     marginRight: isLeft ? 8 : 0,
@@ -45,23 +45,26 @@ const stylesheet = createStyleSheet(theme => ({
     borderRadius: 8,
     paddingHorizontal: 20,
     paddingVertical: 14,
+    borderWidth: isSelected ? 1 : 0,
+    borderColor: theme.colors.primary,
   }),
-  sportIcon: {
+  sportIcon: isSelected => ({
     height: 20,
     width: 20,
     marginBottom: theme.margins.sm,
-  },
+    tintColor: isSelected ? theme.colors.primary : undefined,
+  }),
   bottomView: {
     backgroundColor: theme.colors.white,
     padding: theme.margins.xl,
   },
   listStyle: {gap: 16},
-  sportName: {
-    color: theme.colors.black,
+  sportName: isSelected => ({
+    color: isSelected ? theme.colors.primary : theme.colors.black,
     fontSize: 12,
     fontFamily: theme.fonts.regular,
     lineHeight: 18,
-  },
+  }),
 }));
 
 export default stylesheet;

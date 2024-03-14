@@ -12,6 +12,7 @@ export const lightTheme = {
     white: colors.white,
     black: colors.black,
     transparent: colors.transparent,
+    border: colors.gray2,
   },
   margins: {
     sm: 4,
@@ -33,6 +34,7 @@ export const darkTheme = {
     white: colors.white,
     black: colors.black,
     transparent: colors.transparent,
+    border: colors.gray2,
   },
   margins: {
     sm: 4,
