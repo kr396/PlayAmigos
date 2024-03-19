@@ -1,8 +1,12 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
 
 import {RootState} from '../store';
-interface User {
+import api from '../../api';
+import {endpoints} from '../../api/endpoints';
+import {IAxiosResponse} from '../../api/types';
+
+export interface User {
   bio?: string;
   email: string;
   firstName: string;
@@ -18,13 +22,13 @@ interface User {
 
 // Define a type for the slice state
 interface UserState {
-  user: User | {};
+  user: User | null;
   token?: string;
 }
 
 // Define the initial state using that type
 const initialState: UserState = {
-  user: {},
+  user: null,
 };
 
 export const userSlice = createSlice({
@@ -40,7 +44,22 @@ export const userSlice = createSlice({
       state.token = action.payload;
     },
   },
+  extraReducers: builder => {
+    builder.addCase(addSportsAPI.fulfilled, (state, action) => {
+      state.user = action.payload;
+    });
+  },
 });
+
+export const addSportsAPI = createAsyncThunk(
+  endpoints.addSport,
+  async (data: {sport_id: number; skill_id: number}[]) => {
+    const response = await api.post<IAxiosResponse<User>>(endpoints.addSport, {
+      sport: data,
+    });
+    return response.data.data;
+  },
+);
 
 export const {setUserDetails, setAuthToken} = userSlice.actions;
 

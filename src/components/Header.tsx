@@ -6,7 +6,7 @@ import {useNavigation} from '@react-navigation/native';
 
 type Props = {
   title: string;
-  showBack: boolean;
+  showBack?: boolean;
   onRightButtonPress?: () => void;
 };
 

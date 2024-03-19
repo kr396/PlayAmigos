@@ -23,6 +23,7 @@ import {
   getSportsList,
 } from '../../redux/commonSlice/commonSlice';
 import LevelModal from './components/LevelModal';
+import {addSportsAPI} from '../../redux/commonSlice/userSlice';
 
 const SelectSports: FC<
   NativeStackScreenProps<RootStackParamList, 'SelectSports'>
@@ -50,7 +51,14 @@ const SelectSports: FC<
     [searchText, sports],
   );
 
-  const onSubmitPress = () => {
+  const onSubmitPress = async () => {
+    const sports = selectedSports.map(selectedSport => ({
+      sport_id: selectedSport.id,
+      skill_id: selectedSport.skillId,
+    }));
+    try {
+      dispatch(addSportsAPI(sports));
+    } catch (error) {}
     navigation.navigate('Home');
   };
 

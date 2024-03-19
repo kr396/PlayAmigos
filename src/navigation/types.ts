@@ -11,5 +11,10 @@ export type RootStackParamList = {
 export type BottomTabParamList = {
   Home: undefined;
   Play: undefined;
+  ProfileStack: undefined;
+};
+
+export type ProfileStackParamList = {
   Profile: undefined;
+  EditProfile: undefined;
 };

@@ -20,22 +20,22 @@ const Route = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false}}>
-        {token ? (
+        {!token ? (
           <>
-            <Stack.Screen name="Home" component={BottomTabs} />
-            <Stack.Screen name="SelectSports" component={SelectSports} />
-          </>
-        ) : (
-          <>
-            <Stack.Screen name="OnBoarding" component={OnBoarding} />
             <Stack.Screen
-              name="Login"
-              component={Login}
+              name="OnBoarding"
+              component={OnBoarding}
               options={{animationTypeForReplace: !token ? 'pop' : 'push'}}
             />
+            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
             <Stack.Screen name="SignUp" component={SignUp} />
             <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Home" component={BottomTabs} />
+            <Stack.Screen name="SelectSports" component={SelectSports} />
           </>
         )}
       </Stack.Navigator>

@@ -5,4 +5,7 @@ export const images = {
   signupBackground: require('../assets/images/signup_background.png'),
   forgotPassBg: require('../assets/images/forgot_pass_bg.png'),
   verifyOtpBg: require('../assets/images/verify_otp_bg.png'),
+
+  homeIcon: require('../assets/images/bottomTabs/home.png'),
+  playIcon: require('../assets/images/bottomTabs/play.png'),
 };

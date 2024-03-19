@@ -15,7 +15,7 @@ import {images, strings} from '../../config';
 import {isValidEmail} from '../../utils/helpers';
 import {LoginResponse} from './types';
 import {useAppDispatch, useAppSelector} from '../../redux/hooks';
-import {setAuthToken} from '../../redux/commonSlice/userSlice';
+import {setAuthToken, setUserDetails} from '../../redux/commonSlice/userSlice';
 import {getAppLoading} from '../../redux/commonSlice/appSlice';
 
 const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
@@ -25,8 +25,8 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   const dispatch = useAppDispatch();
   const loading = useAppSelector(getAppLoading);
   const passwordRef = useRef<TextInput>(null);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('kaushalp.dev@gmail.com');
+  const [password, setPassword] = useState('Test@123');
 
   const onForgotPassPress = () => {
     navigation.navigate('ForgotPassword');
@@ -77,6 +77,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
               routes: [{name: 'SelectSports'}],
             });
           } else {
+            dispatch(setUserDetails(response.data.data));
             navigation.reset({
               index: 0,
               routes: [{name: 'Home'}],

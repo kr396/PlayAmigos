@@ -15,18 +15,26 @@ type Props = {
   containerStyles?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
   inputStyle?: StyleProp<TextStyle>;
+  editable?: boolean;
 } & Omit<TextInputProps, 'style'>;
 
 export const InputText = forwardRef<TextInput, Props>(
-  ({label, containerStyles, labelStyle, inputStyle, ...props}, ref) => {
+  (
+    {label, containerStyles, labelStyle, inputStyle, editable = true, ...props},
+    ref,
+  ) => {
     const {styles, theme} = useStyles(stylesheet);
+    const disabledStyle: StyleProp<TextStyle> = !editable
+      ? {color: theme.colors.typography2, opacity: 0.8}
+      : {};
     return (
       <View style={[styles.container, containerStyles]}>
         <Text style={[styles.label, labelStyle]}>{label}</Text>
         <TextInput
           selectionColor={theme.colors.primary}
+          editable={editable}
           {...props}
-          style={[styles.inputStyle, inputStyle]}
+          style={[styles.inputStyle, disabledStyle, inputStyle]}
           ref={ref}
         />
       </View>
