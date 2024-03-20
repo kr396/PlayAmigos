@@ -2,6 +2,8 @@ import {View, SafeAreaView, Image, Pressable} from 'react-native';
 import React, {useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {useActionSheet} from '@expo/react-native-action-sheet';
+import ImageCropPicker from 'react-native-image-crop-picker';
 
 import stylesheet from './styles';
 import {Header, InputText, ThemeButton} from '../../components';
@@ -13,12 +15,14 @@ import CustomDropDown from '../../components/CustomDropDown';
 const EditProfile = () => {
   const {styles} = useStyles(stylesheet);
   const user = useAppSelector(getUser);
+  const [profilePic, setProfilePic] = useState(user?.profilePic);
   const [firstName, setFirstName] = useState(user?.firstName);
   const [lastName, setLastName] = useState(user?.lastName);
   const [emailAddress, setEmailAddress] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone);
   const [bio, setBio] = useState(user?.bio);
   const [gender, setGender] = useState({value: user?.gender});
+  const {showActionSheetWithOptions} = useActionSheet();
   const genderData = [
     {
       label: 'Male',
@@ -34,6 +38,48 @@ const EditProfile = () => {
     },
   ];
 
+  const onChangePhotoPress = () => {
+    const options = ['Camera', 'Photos', 'Cancel'];
+    const cancelButtonIndex = 2;
+
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+      },
+      selectedIndex => {
+        switch (selectedIndex) {
+          case 0:
+            // Camera
+            ImageCropPicker.openCamera({
+              width: 300,
+              height: 400,
+              cropping: true,
+            }).then(image => {
+              console.log(image);
+            });
+            break;
+
+          case 1:
+            // Photos
+            ImageCropPicker.openPicker({
+              width: 300,
+              height: 400,
+              cropping: true,
+            }).then(image => {
+              console.log(image);
+              setProfilePic(image.path);
+            });
+            break;
+
+          // Canceled
+          default:
+            break;
+        }
+      },
+    );
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <Header title="Edit Profile" />
@@ -41,11 +87,10 @@ const EditProfile = () => {
         <KeyboardAwareScrollView>
           <View style={styles.inputContainer}>
             <View style={styles.profilePhotoContainer}>
-              <Image
-                style={styles.profilePhoto}
-                source={{uri: user?.profilePic}}
-              />
-              <Pressable style={styles.cameraButton}>
+              <Image style={styles.profilePhoto} source={{uri: profilePic}} />
+              <Pressable
+                style={styles.cameraButton}
+                onPress={onChangePhotoPress}>
                 <CameraIcon />
               </Pressable>
             </View>
