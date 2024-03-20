@@ -52,12 +52,12 @@ const SelectSports: FC<
   );
 
   const onSubmitPress = async () => {
-    const sports = selectedSports.map(selectedSport => ({
+    const updatedSports = selectedSports.map(selectedSport => ({
       sport_id: selectedSport.id,
       skill_id: selectedSport.skillId,
     }));
     try {
-      dispatch(addSportsAPI(sports));
+      dispatch(addSportsAPI(updatedSports));
     } catch (error) {}
     navigation.navigate('Home');
   };

@@ -8,6 +8,7 @@ import {Header, InputText, ThemeButton} from '../../components';
 import {CameraIcon} from '../../config/svgs';
 import {useAppSelector} from '../../redux/hooks';
 import {getUser} from '../../redux/commonSlice/userSlice';
+import CustomDropDown from '../../components/CustomDropDown';
 
 const EditProfile = () => {
   const {styles} = useStyles(stylesheet);
@@ -17,6 +18,22 @@ const EditProfile = () => {
   const [emailAddress, setEmailAddress] = useState(user?.email);
   const [phone, setPhone] = useState(user?.phone);
   const [bio, setBio] = useState(user?.bio);
+  const [gender, setGender] = useState({value: user?.gender});
+  const genderData = [
+    {
+      label: 'Male',
+      value: 'M',
+    },
+    {
+      label: 'Female',
+      value: 'F',
+    },
+    {
+      label: 'Other',
+      value: 'O',
+    },
+  ];
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <Header title="Edit Profile" />
@@ -53,7 +70,16 @@ const EditProfile = () => {
             <InputText label="Phone" value={phone} onChangeText={setPhone} />
           </View>
           <View style={styles.inputContainer}>
-            <InputText label="Gender" />
+            {/* <InputText label="Gender" /> */}
+            <CustomDropDown
+              data={genderData}
+              title="Gender"
+              value={gender}
+              labelField={'label'}
+              valueField={'value'}
+              onChange={setGender}
+              placeholder="Select Gender"
+            />
             <InputText label="Bio" value={bio} onChangeText={setBio} />
           </View>
           <ThemeButton title="Update" style={styles.updateButton} />

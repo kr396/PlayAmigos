@@ -1,26 +1,74 @@
-import {View, Text, Button} from 'react-native';
+import {View, Text, ScrollView, SafeAreaView, FlatList} from 'react-native';
 import React from 'react';
-import {useStyles} from 'react-native-unistyles';
+import {UnistylesRuntime, useStyles} from 'react-native-unistyles';
 import stylesheet from './styles';
-import {useAppDispatch} from '../../redux/hooks';
+import {GameCard, ThemeButton} from '../../components';
+import {MessageIcon, NotificationIcon} from '../../config/svgs';
 
-const Home = ({navigation}) => {
+const Home = ({}) => {
   const {styles} = useStyles(stylesheet);
-  const dispatch = useAppDispatch();
 
-  const onLogoutPress = () => {
-    dispatch({type: 'USER_LOGOUT'});
+  const renderGame = () => {
+    return <GameCard containerStyle={styles.gameCard} />;
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Home</Text>
-      <Button title="Logout" onPress={onLogoutPress} />
-      <Button
-        title="Select Sports"
-        onPress={() => navigation.navigate('SelectSports')}
-      />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <View style={styles.locationPickerWrapper}>
+            <Text style={styles.locationText}>Indiranagar,Bangulur</Text>
+          </View>
+          <MessageIcon />
+          <NotificationIcon />
+        </View>
+        <ScrollView>
+          <View style={styles.createGameContainer}>
+            <View style={styles.row}>
+              <View style={styles.textContainer}>
+                <Text style={styles.createGameText}>Create your Game</Text>
+                <Text style={styles.descText}>No games in your calendar</Text>
+              </View>
+              <ThemeButton
+                title="Create"
+                style={styles.createButton}
+                titleStyle={styles.createBtnText}
+              />
+            </View>
+            <View style={styles.devider} />
+            <ThemeButton
+              mode="clear"
+              title="View My Calendar"
+              titleStyle={styles.themeText}
+            />
+          </View>
+          <View style={styles.cardsConntainer}>
+            <View style={styles.cardsHeader}>
+              <Text style={styles.cardTitleText}>Join A Game Nearby</Text>
+              <ThemeButton
+                mode="clear"
+                title="See All"
+                titleStyle={styles.seeAllBtnText}
+              />
+            </View>
+            <View
+              style={{
+                width: UnistylesRuntime.screen.width - 80 + 16,
+                // overflow: 'visible',
+              }}>
+              <FlatList
+                data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]}
+                renderItem={renderGame}
+                horizontal={true}
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                style={styles.gameCardsList}
+              />
+            </View>
+          </View>
+        </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 };
 
