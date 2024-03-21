@@ -19,7 +19,10 @@ import {
   ChevronRightIcon,
   EditIcon,
   GamesIcon,
-  PageIcon,
+  GiftBoxIcon,
+  HelpIcon,
+  LogoutIcon,
+  PrivacypIcon,
 } from '../../config/svgs';
 
 const Profile = ({navigation}) => {
@@ -43,21 +46,25 @@ const Profile = ({navigation}) => {
     {
       id: 'preference',
       label: 'Preference and Privacy',
+      icon: <PrivacypIcon />,
       onPress: () => {},
     },
     {
       id: 'invite',
       label: 'Invite',
+      icon: <GiftBoxIcon />,
       onPress: () => {},
     },
     {
       id: 'helpsupport',
       label: 'Help & Support',
+      icon: <HelpIcon />,
       onPress: () => {},
     },
     {
       id: 'logout',
       label: 'Logout',
+      icon: <LogoutIcon />,
       onPress: onLogoutPress,
     },
   ];
@@ -94,9 +101,7 @@ const Profile = ({navigation}) => {
   const renderOptions = ({item}: {item: Option}) => {
     return (
       <Pressable style={styles.option} onPress={item.onPress}>
-        <View style={styles.iconWrap}>
-          <PageIcon />
-        </View>
+        <View style={styles.iconWrap}>{item.icon}</View>
         <Text style={styles.optionText}>{item.label}</Text>
         <ChevronRightIcon />
       </Pressable>

@@ -4,10 +4,10 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {useStyles} from 'react-native-unistyles';
 
 import Home from '../screens/Home';
-import Play from '../screens/Play';
 import {BottomTabParamList} from './types';
 import {images} from '../config';
 import ProfileStack from './ProfileStack';
+import PlayStack from './PlayStack';
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
@@ -23,7 +23,7 @@ const BottomTabs = () => {
             return (
               <Image source={images.homeIcon} style={{tintColor: color}} />
             );
-          } else if (route.name === 'Play') {
+          } else if (route.name === 'PlayStack') {
             return (
               <Image source={images.playIcon} style={{tintColor: color}} />
             );
@@ -31,7 +31,7 @@ const BottomTabs = () => {
         },
       })}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Play" component={Play} />
+      <Tab.Screen name="PlayStack" component={PlayStack} />
       <Tab.Screen
         name="ProfileStack"
         options={{tabBarLabel: 'Profile'}}

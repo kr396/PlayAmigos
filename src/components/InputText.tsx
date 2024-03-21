@@ -53,11 +53,12 @@ const stylesheet = createStyleSheet(theme => ({
   },
   inputStyle: {
     height: 48,
+    alignItems: 'center',
     backgroundColor: theme.colors.lightBlue,
     color: theme.colors.typography,
     fontSize: 15,
     fontFamily: theme.fonts.medium,
     borderRadius: 8,
-    padding: theme.margins.xl,
+    paddingHorizontal: theme.paddings.xl,
   },
 }));

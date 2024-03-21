@@ -5,8 +5,14 @@ import stylesheet from './styles';
 import {GameCard, ThemeButton} from '../../components';
 import {MessageIcon, NotificationIcon} from '../../config/svgs';
 
-const Home = ({}) => {
+const Home = ({navigation}) => {
   const {styles} = useStyles(stylesheet);
+
+  const onCreatePress = () => {
+    navigation.navigate('PlayStack', {
+      screen: 'CreateGame',
+    });
+  };
 
   const renderGame = () => {
     return <GameCard containerStyle={styles.gameCard} />;
@@ -33,6 +39,7 @@ const Home = ({}) => {
                 title="Create"
                 style={styles.createButton}
                 titleStyle={styles.createBtnText}
+                onPress={onCreatePress}
               />
             </View>
             <View style={styles.devider} />
