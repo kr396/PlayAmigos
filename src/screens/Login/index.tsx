@@ -161,5 +161,4 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
     </View>
   );
 };
-
 export default Login;
