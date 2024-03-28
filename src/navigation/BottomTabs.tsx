@@ -31,7 +31,11 @@ const BottomTabs = () => {
         },
       })}>
       <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="PlayStack" component={PlayStack} />
+      <Tab.Screen
+        name="PlayStack"
+        component={PlayStack}
+        options={{title: 'Play'}}
+      />
       <Tab.Screen
         name="ProfileStack"
         options={{tabBarLabel: 'Profile'}}

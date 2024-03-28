@@ -59,7 +59,7 @@ const SelectSports: FC<
     try {
       dispatch(addSportsAPI(updatedSports));
     } catch (error) {}
-    navigation.navigate('Home');
+    navigation.navigate('BottomTabs');
   };
 
   const onSportPress = (item: Sport) => {

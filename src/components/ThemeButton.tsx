@@ -12,7 +12,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 type Props = {
   title: string;
-  mode?: 'default' | 'clear';
+  mode?: 'default' | 'clear' | 'outline';
   style?: StyleProp<ViewStyle>;
   titleStyle?: StyleProp<TextStyle>;
   loading?: boolean;
@@ -35,6 +35,17 @@ export const ThemeButton: FC<Props> = ({
       </Pressable>
     );
   }
+  if (mode === 'outline') {
+    return (
+      <Pressable
+        style={[styles.container, styles.outlinedButtonContainer, style]}
+        onPress={onPress}>
+        <Text style={[styles.title, styles.outlineButtonTitle, titleStyle]}>
+          {title}
+        </Text>
+      </Pressable>
+    );
+  }
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
       <Text style={[styles.title, titleStyle]}>{title}</Text>
@@ -48,20 +59,20 @@ export const ThemeButton: FC<Props> = ({
   );
 };
 
-const styleSheet = createStyleSheet(theme => ({
+const styleSheet = createStyleSheet(({colors, margins, fonts}) => ({
   container: {
     height: 48,
     flexDirection: 'row',
-    backgroundColor: theme.colors.primary,
+    backgroundColor: colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: theme.margins.lg,
+    paddingHorizontal: margins.lg,
     borderRadius: 8,
   },
   title: {
     fontSize: 16,
-    fontFamily: theme.fonts.bold,
-    color: theme.colors.white,
+    fontFamily: fonts.bold,
+    color: colors.white,
   },
   clearButtonContainer: {
     justifyContent: 'center',
@@ -70,10 +81,18 @@ const styleSheet = createStyleSheet(theme => ({
   clearButtonTitle: {
     fontSize: 15,
     lineHeight: 22.5,
-    fontFamily: theme.fonts.regular,
-    color: theme.colors.typography2,
+    fontFamily: fonts.regular,
+    color: colors.typography2,
   },
   loaderStyle: {
-    marginLeft: theme.margins.lg,
+    marginLeft: margins.lg,
+  },
+  outlinedButtonContainer: {
+    backgroundColor: colors.transparent,
+    borderWidth: 1,
+    borderColor: colors.primary,
+  },
+  outlineButtonTitle: {
+    color: colors.primary,
   },
 }));

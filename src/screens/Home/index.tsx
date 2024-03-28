@@ -14,6 +14,11 @@ const Home = ({navigation}) => {
     });
   };
 
+  const onMyCalendarPress = () => {
+    // TODO
+    navigation.navigate('PlayStack', {screen: 'GameDetails'});
+  };
+
   const renderGame = () => {
     return <GameCard containerStyle={styles.gameCard} />;
   };
@@ -47,6 +52,7 @@ const Home = ({navigation}) => {
               mode="clear"
               title="View My Calendar"
               titleStyle={styles.themeText}
+              onPress={onMyCalendarPress}
             />
           </View>
           <View style={styles.cardsConntainer}>

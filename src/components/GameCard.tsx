@@ -85,6 +85,7 @@ const stylessheet = createStyleSheet(({colors, fonts, margins, paddings}) => ({
   },
   location: {
     gap: 4,
+    marginRight: margins.md,
   },
   locationText: {
     fontSize: 11,
@@ -94,6 +95,7 @@ const stylessheet = createStyleSheet(({colors, fonts, margins, paddings}) => ({
   },
   button: {
     height: 30,
+    borderRadius: 4,
   },
   buttonTitle: {
     fontSize: 13,

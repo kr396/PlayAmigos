@@ -34,7 +34,7 @@ const Route = () => {
           </>
         ) : (
           <>
-            <Stack.Screen name="Home" component={BottomTabs} />
+            <Stack.Screen name="BottomTabs" component={BottomTabs} />
             <Stack.Screen name="SelectSports" component={SelectSports} />
           </>
         )}

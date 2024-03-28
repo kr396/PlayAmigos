@@ -17,6 +17,7 @@ export const lightTheme = {
     orangeBorder: colors.orangeBorder,
     lightGreen: colors.lightGreen,
     grey3: colors.grey3,
+    grey4: colors.grey4,
   },
   margins: {
     sm: 4,
@@ -49,6 +50,7 @@ export const darkTheme = {
     orangeBorder: colors.orangeBorder,
     lightGreen: colors.lightGreen,
     grey3: colors.grey3,
+    grey4: colors.grey4,
   },
   margins: {
     sm: 4,

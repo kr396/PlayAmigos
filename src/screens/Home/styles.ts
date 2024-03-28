@@ -56,6 +56,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   createButton: {
     height: 32,
+    borderRadius: 4,
   },
   createBtnText: {
     fontSize: 13,

@@ -1,16 +1,10 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Image,
-  Pressable,
-  ScrollView,
-} from 'react-native';
+import {View, Text, TextInput, Image, Pressable} from 'react-native';
 import React, {FC, useRef, useState} from 'react';
 import {useStyles} from 'react-native-unistyles';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import Toast from 'react-native-toast-message';
+
 import stylesheet from './styles';
 import {InputText, ThemeButton} from '../../components';
 import {RootStackParamList} from '../../navigation/types';
@@ -86,7 +80,7 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
             dispatch(setUserDetails(response.data.data));
             navigation.reset({
               index: 0,
-              routes: [{name: 'Home'}],
+              routes: [{name: 'BottomTabs'}],
             });
           }
         }
@@ -107,57 +101,53 @@ const Login: FC<NativeStackScreenProps<RootStackParamList, 'Login'>> = ({
   return (
     <View style={styles.container}>
       <Image style={styles.image} source={images.loginBackground} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <KeyboardAwareScrollView
+        showsVerticalScrollIndicator={false}
+        bounces={false}>
         <View style={styles.main}>
-          <KeyboardAwareScrollView
-            contentContainerStyle={styles.scrollView}
-            bounces={false}>
-            <View style={styles.content}>
-              <Text style={styles.title}>Welcome back!</Text>
-              <InputText
-                label="Email"
-                value={email}
-                onChangeText={setEmail}
-                returnKeyType="next"
-                textContentType="emailAddress"
-                autoCapitalize="none"
-                containerStyles={styles.input}
-                onSubmitEditing={() => passwordRef.current?.focus()}
-              />
-              <InputText
-                ref={passwordRef}
-                label="Password"
-                value={password}
-                onChangeText={setPassword}
-                returnKeyType="done"
-                textContentType="password"
-                secureTextEntry={true}
-                containerStyles={styles.input}
-              />
-              <View style={styles.row}>
-                <Text style={styles.forgotPass} onPress={onForgotPassPress}>
-                  Forgot Password
-                </Text>
-              </View>
-              <ThemeButton
-                title="Log In"
-                style={styles.loginBtn}
-                loading={loading}
-                onPress={onLoginPress}
-              />
-            </View>
-
-            <View style={styles.bottomRow}>
-              <Text style={styles.bottomText}>
-                Don’t have an account?{'  '}
+          <View style={styles.content}>
+            <Text style={styles.title}>Welcome back!</Text>
+            <InputText
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              returnKeyType="next"
+              textContentType="emailAddress"
+              autoCapitalize="none"
+              containerStyles={styles.input}
+              onSubmitEditing={() => passwordRef.current?.focus()}
+            />
+            <InputText
+              ref={passwordRef}
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              returnKeyType="done"
+              textContentType="password"
+              secureTextEntry={true}
+              containerStyles={styles.input}
+            />
+            <View style={styles.row}>
+              <Text style={styles.forgotPass} onPress={onForgotPassPress}>
+                Forgot Password
               </Text>
-              <Pressable onPress={onSignUpPress}>
-                <Text style={styles.signUpText}>Sign Up</Text>
-              </Pressable>
             </View>
-          </KeyboardAwareScrollView>
+            <ThemeButton
+              title="Log In"
+              style={styles.loginBtn}
+              loading={loading}
+              onPress={onLoginPress}
+            />
+          </View>
+
+          <View style={styles.bottomRow}>
+            <Text style={styles.bottomText}>Don’t have an account?{'  '}</Text>
+            <Pressable onPress={onSignUpPress}>
+              <Text style={styles.signUpText}>Sign Up</Text>
+            </Pressable>
+          </View>
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </View>
   );
 };

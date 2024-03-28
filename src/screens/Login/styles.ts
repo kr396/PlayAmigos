@@ -58,7 +58,7 @@ const stylesheet = createStyleSheet(theme => ({
     flexDirection: 'row',
     alignSelf: 'center',
     alignItems: 'center',
-    marginBottom: theme.margins.xl,
+    marginVertical: theme.margins.xl,
   },
 }));
 

@@ -6,9 +6,7 @@ import stylesheet from './styles';
 import {Header} from '../../components';
 import DatePicker from 'react-native-date-picker';
 
-type Props = {};
-
-const CreateGame = (props: Props) => {
+const CreateGame = () => {
   const {styles} = useStyles(stylesheet);
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -23,9 +21,9 @@ const CreateGame = (props: Props) => {
           mode="date"
           open={open}
           date={date}
-          onConfirm={date => {
+          onConfirm={newDate => {
             setOpen(false);
-            setDate(date);
+            setDate(newDate);
           }}
           onCancel={() => {
             setOpen(false);

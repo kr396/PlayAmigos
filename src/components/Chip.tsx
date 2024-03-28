@@ -37,6 +37,7 @@ export const Chip = ({color, borderColor, title, style, titleStyle}: Props) => {
 
 const stylesheet = createStyleSheet(({fonts, paddings}) => ({
   container: {
+    height: 20,
     justifyContent: 'center',
     alignContent: 'center',
     paddingVertical: paddings.sm / 2,
