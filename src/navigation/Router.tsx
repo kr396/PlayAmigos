@@ -12,6 +12,7 @@ import OnBoarding from '../screens/OnBoarding';
 import {useAppSelector} from '../redux/hooks';
 import {getAuthToken} from '../redux/commonSlice/userSlice';
 import BottomTabs from './BottomTabs';
+import SelectSport from '../screens/SelectSport';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -36,6 +37,7 @@ const Route = () => {
           <>
             <Stack.Screen name="Home" component={BottomTabs} />
             <Stack.Screen name="SelectSports" component={SelectSports} />
+            <Stack.Screen name="SelectSport" component={SelectSport}/>
           </>
         )}
       </Stack.Navigator>

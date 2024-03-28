@@ -6,6 +6,7 @@ export type RootStackParamList = {
   VerifyOTP: {email: string};
   Home: undefined;
   SelectSports: undefined;
+  SelectSport:undefined;
 };
 
 export type BottomTabParamList = {
